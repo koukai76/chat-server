@@ -1,0 +1,6 @@
+---
+applications:
+ - name: batch59782
+   random-route: true
+   memory: 256M
+   command: node dist/src/cron/cron.js

@@ -1,0 +1,82 @@
+{
+  "rules": {
+    ".write": false,
+    ".read": false,
+    "rooms": {
+      ".read": "auth != null",
+      "$rid": {
+        ".indexOn": "rid"
+      }
+    },
+    "talks": {
+      "$id": {
+        ".read": "root.child('rooms').child($id).child('member').child(auth.uid).exists()",
+        ".indexOn": "createdAt",
+        "$tid": {
+          ".write": "root.child('rooms').child($id).child('member').child(auth.uid).exists() && !data.exists() || (!newData.exists() && data.child('uid').val() === auth.uid)",
+          ".validate": "newData.hasChildren(['uid', 'uname','icon', 'message', 'kind', 'createdAt'])",
+          "uid": {
+            ".validate": "newData.isString() && newData.val() == auth.uid"
+          },
+          "uname": {
+            ".validate": "newData.isString() && 0 < newData.val().length && newData.val().length <= 15"
+          },
+          "icon": {
+            ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 22"
+          },
+          "message": {
+            ".validate": "newData.isString() && 0 < newData.val().length && newData.val().length <= 150"
+          },
+          "kind": {
+            ".validate": "newData.isNumber() && newData.val() === 0"
+          },
+          "createdAt": {
+            ".validate": "newData.isNumber()"
+          },
+          "$other": { ".validate": false }
+        }
+      }
+    },
+    "images": {
+      "$id": {
+        ".write": "!data.exists() || (!newData.exists() && data.child('uid').val() === auth.uid)",
+        ".validate": "newData.hasChildren(['uid', 'url', 'createdAt'])",
+        "uid": {
+          ".validate": "newData.isString() && newData.val() == auth.uid"
+        },
+        "url": {
+          ".validate": "newData.isString()"
+        },
+        "createdAt": {
+          ".validate": "newData.isNumber()"
+        },
+        "$other": { ".validate": false },
+        ".indexOn": "id"
+      }
+    },
+    "users": {
+      "$uid": {
+        ".read": "auth.uid == $uid",
+        ".write": "!data.exists() || (!newData.exists() && data.child('uid').val() === auth.uid)",
+        ".validate": "newData.hasChildren(['uid', 'uname','icon', 'rid','createdAt'])",
+        "uid": {
+          ".validate": "newData.isString() && newData.val() == auth.uid"
+        },
+        "uname": {
+          ".validate": "newData.isString() && 0 < newData.val().length && newData.val().length <= 15"
+        },
+        "icon": {
+          ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 22"
+        },
+        "rid": {
+          ".validate": "newData.isString()"
+        },
+        "createdAt": {
+          ".validate": "newData.isNumber()"
+        },
+        "$other": { ".validate": false },
+        ".indexOn": "uid"
+      }
+    }
+  }
+}

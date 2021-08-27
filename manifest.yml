@@ -1,0 +1,6 @@
+---
+applications:
+ - name: chat183717
+   random-route: true
+   memory: 256M
+   command: node dist/src/express/index.js
