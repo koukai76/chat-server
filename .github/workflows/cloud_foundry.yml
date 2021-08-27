@@ -1,4 +1,4 @@
-name: Deploy to IBM Cloud Foundry
+name: Deploy to IBM Cloud Foundry.
 
 on:
   push:
