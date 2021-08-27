@@ -1,4 +1,4 @@
-name: Scheduled Deploy to IBM Cloud Founctions
+name: Scheduled Deploy to IBM Cloud Foundry
 
 on:
   schedule:
